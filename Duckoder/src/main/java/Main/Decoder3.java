@@ -31,11 +31,11 @@ public class Decoder3 {
             height = img.getHeight();
             imageColor = new Color[height][width];
 
-            for (int i = 0; i < height; i++) {
+            for (int i = 0; i < width; i++) {
 
-                for (int j = 0; j < width; j++) {
+                for (int j = 0; j < height; j++) {
 
-                    imageColor[i][j] = new Color(img.getRGB(j, i), true);
+                    imageColor[i][j] = new Color(img.getRGB(i, j), true);
 
                 }
 
@@ -128,7 +128,7 @@ public class Decoder3 {
                         System.out.println();
 
                     }
-                    
+
                     if (letter.equals('\0')) {
 
                         System.out.println();

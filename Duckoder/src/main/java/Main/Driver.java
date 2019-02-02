@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
@@ -18,7 +19,7 @@ import javax.imageio.ImageIO;
  */
 public class Driver {
 
-    public static void main(String[] args) throws FileNotFoundException{
+    public static void main(String[] args) throws FileNotFoundException, IOException{
 
         File f = new File("monalisa.png");
 
@@ -30,7 +31,7 @@ public class Driver {
         
         
         File file = new File("test.txt");
-        EncoderDecoder e = new EncoderDecoder();
+        Encoder e = new Encoder();
         
         ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
         System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
