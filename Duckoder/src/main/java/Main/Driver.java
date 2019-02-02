@@ -6,30 +6,44 @@
 package Main;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author joeriemersma
  */
 public class Driver {
-    
+
     public static void main(String[] args) throws FileNotFoundException{
-        
+
         File f = new File("monalisa.png");
-        
-       
+
         System.out.print(f.isFile());
         EncodingFile ef = new EncodingFile(f);
         ef.setEncodingFile(f);
-        ArrayList<Color> test = ef.getRGBValues();        
-       
+        ArrayList<Color> test = ef.getRGBValues();
+
         File file = new File("test.txt");
         EncoderDecoder e = new EncoderDecoder();
         ArrayList<Color> encodedColors = e.encodeColors(test, file);
         //System.out.println(encodedColors.size());
-        
+        ArrayList<ArrayList<Color>> test = ef.getRGBValues();
+        createFile(ef.createEncodedFile(test));
+    }
+
+    public static void createFile(BufferedImage bf){
+
+        File file = new File("encoded.png");
+        try{
+
+            ImageIO.write(bf, "png", file);
+        }catch(Exception e){
+            //Should do some error control
+        }
+
     }
 }
