@@ -35,33 +35,45 @@ public class EncodingFile {
         }
         this.width = this.encodingFile.getWidth();
         this.height = this.encodingFile.getHeight();
+        System.out.println("Height:" + this.height + " Width: " + this.width);
         return;
 
     }
     
     
-    public ArrayList<Color> getRGBValues(){
-        ArrayList<Color> rgbArr = new ArrayList<>();
+    public ArrayList<ArrayList<Color>> getRGBValues(){
+        ArrayList<ArrayList<Color>> grid = new ArrayList<>();
+        ArrayList<Color> row = null;
         Color c;
+        
         for(int i=0; i < width;i++){
-            for(int j = 0; j < height; j++){
+            row = new ArrayList<>();
+            for(int j=0; j < height; j++){
                 c = new Color(this.encodingFile.getRGB(i, j));
-                rgbArr.add(c);
+                row.add(c);
             }
+            grid.add(row);
+            
         }
-        return rgbArr; 
+        return grid; 
     }
     
-    public BufferedImage createEncodedFile(ArrayList<Color> newRgb){
-        BufferedImage img = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-        int j = -1;
-        for(int i = 0; i < newRgb.size(); i++){
-                if(i % width == 0){j++;}
-                img.setRGB(i,j,newRgb.get(i).getRGB());
-        }
+    public BufferedImage createEncodedFile(ArrayList<ArrayList<Color>> newRgb){
         
+        BufferedImage img = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        
+        System.out.print("outer " + newRgb.size() + " inner " + newRgb.get(0).size());
+        
+        for(int i = 0; i < newRgb.size(); i++){
+            for(int j = 0; j < newRgb.get(i).size(); j++){
+                
+                img.setRGB(i,j,newRgb.get(i).get(j).getRGB());
+                
+            }    
+        }
         return img;
     }
     
+        
     
 }
