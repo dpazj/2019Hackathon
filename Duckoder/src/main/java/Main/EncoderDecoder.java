@@ -19,6 +19,7 @@ import java.util.BitSet;
 public class EncoderDecoder {
 
     int cycle = 0;
+    int cycleCount = 0;
 
     private boolean getBitSet(byte b, int pointer) {
         // 0 1 2 3 4 5 6 7
@@ -34,7 +35,9 @@ public class EncoderDecoder {
         ArrayList<ArrayList<Color>> encodedColors = new ArrayList<>();
         FileInputStream f = new FileInputStream(hiddenFile);
 
-        byte[] hiddenBytes = new byte[(int) hiddenFile.length()];
+        byte[] hiddenBytes = new byte[(int)hiddenFile.length()];
+
+        System.out.println("Hidden Bytes Length: " + hiddenBytes.length);
 
         System.out.println("Encoded File Started");
 
@@ -43,39 +46,25 @@ public class EncoderDecoder {
         }
 
         int byteCount = 0;
+        
         for (int x = 0; x < file.size(); x++) {
-            //System.out.println("X: " + x);
             for (int y = 0; y < file.get(0).size(); y++) {
-                //System.out.println("Y: " + file.get(0).size());
-
-                if (byteCount >= hiddenBytes.length - 1) {
-                    encodedColors.get(x).add(file.get(x).get(y));
-                } else {
-                    for (int b = 0; b < 8; b += 2) {
-                        //System.out.println("BYTECOUNT: " + byteCount + " B: " + b);
-                        if (y > 6000) {
-                            System.out.println("This Breaks y: " + y);
-                        }
-                        Color c = encodeColor(file.get(x).get(y), hiddenBytes[byteCount], b);
-                        encodedColors.get(x).add(c);
-
-                        if (y >= file.get(0).size() - 1) {
-                            return encodedColors;
-                        }
-
-                        if (cycle == 0) {
-                            y++;
-                        }
+                
+                for(int b=0; b<8; b+=2){
+                    Color c = encodeColor(file.get(x).get(y), hiddenBytes[byteCount], b);
+                    file.get(x).set(y, c);
+                    if(cycle == 0){
+                        y++;
                     }
                 }
-                if (byteCount < hiddenBytes.length - 1) {
-                    byteCount++;
+                byteCount++;
+                if(byteCount >= hiddenBytes.length){
+                    System.out.println("Encoded File Done");
+                    return file;
                 }
             }
         }
-
-        System.out.println("Encoded File Done");
-        return encodedColors;
+        return file;
     }
 
     private Color encodeColor(Color c, byte b, int pointer) {

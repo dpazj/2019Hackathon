@@ -202,7 +202,7 @@ public class Duckoder {
 			public void mouseClicked(MouseEvent e) {
 				//TODO: REMOVE TEST IMAGE
 				try {
-					BufferedImage test = ImageIO.read(new File("C:\\Users\\emilijabudryte\\Documents\\GitHub\\2019Hackathon\\Duckoder\\monalisa.png"));
+					BufferedImage test = ImageIO.read(new File("monalisa.png"));
 					setNewImage(test);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
