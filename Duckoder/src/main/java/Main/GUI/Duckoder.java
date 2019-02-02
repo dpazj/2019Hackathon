@@ -37,6 +37,7 @@ public class Duckoder {
 	private JTextField afterDir;
 	private JLabel beforeImg;
 	private JLabel afterImg;
+	private BufferedImage newImage;
 
 	/**
 	 * Launch the application.
@@ -59,6 +60,7 @@ public class Duckoder {
 	 * @param image new image
 	 */
 	public void setNewImage(BufferedImage image) {
+		newImage = image;
 		if (afterImg!=null) {
 			frame.getContentPane().remove(afterImg);
 		}
@@ -154,8 +156,6 @@ public class Duckoder {
 		beforeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO
-				//get value from input field
 				String path = beforeDir.getText();
 				BufferedImage beforeImage;
 				try {
@@ -184,6 +184,9 @@ public class Duckoder {
 		afterBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (newImage!=null) {
+					String path = afterDir.getText();
+				}
 			}
 		});
 		
