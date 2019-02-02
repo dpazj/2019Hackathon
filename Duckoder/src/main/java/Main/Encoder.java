@@ -41,6 +41,10 @@ public class Encoder {
         hiddenBytes[(int) hiddenFile.length()] = (byte) '\0';
         System.out.println("Hidden Bytes Length: " + hiddenBytes.length);
         
+//        for (byte b : hiddenBytes){
+//            System.out.println(b & 0xFF);
+//        }
+        
         System.out.println("Encoded File Started");
 
         int byteCount = 0;
@@ -76,7 +80,7 @@ public class Encoder {
 
     private Color encodeColor(Color c, byte b, int pointer) {
         Color newC = c;
-        //pointer = 7 - pointer;
+        pointer = 7 - pointer;
 
         //Red
         if (cycle == 0) {
@@ -110,12 +114,12 @@ public class Encoder {
             if (getBitSet(b, pointer)) {
                 green |= 1 << 0;
             } else {
-                green |= 0 << 0;
+                green &= ~(1 << 0);
             }
             if (getBitSet(b, pointer + 1)) {
                 green |= 1 << 1;
             } else {
-                green |= 0 << 1;
+                green &= ~(1 << 1);
             }
 
             //System.out.println("Green: " + (green & 0xFF));
@@ -130,12 +134,12 @@ public class Encoder {
             if (getBitSet(b, pointer)) {
                 blue |= 1 << 0;
             } else {
-                blue |= 0 << 0;
+                blue &= ~(1 << 0);
             }
             if (getBitSet(b, pointer + 1)) {
                 blue |= 1 << 1;
             } else {
-                blue |= 0 << 1;
+                blue &= ~(1 << 1);
             }
 
             //System.out.println("Blue: " + (blue & 0xFF));
