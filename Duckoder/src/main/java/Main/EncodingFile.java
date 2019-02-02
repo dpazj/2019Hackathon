@@ -31,14 +31,16 @@ public class EncodingFile {
         }catch(IOException e){
             
         }
+        return;
 
     }
     
-    private ArrayList<Color> getRGBValues(){
+    
+    public ArrayList<Color> getRGBValues(){
         ArrayList<Color> rgbArr = new ArrayList<>();
         Color c;
-        for(int i=0; i < this.encodingFile.getHeight();i++){
-            for(int j = 0; j < this.encodingFile.getWidth(); j++){
+        for(int i=0; i < this.encodingFile.getWidth();i++){
+            for(int j = 0; j < this.encodingFile.getHeight(); j++){
                 c = new Color(this.encodingFile.getRGB(i, j));
                 rgbArr.add(c);
             }
