@@ -32,33 +32,37 @@ public class EncoderDecoder {
     }
 
     public ArrayList<ArrayList<Color>> encodeColors(ArrayList<ArrayList<Color>> file, File hiddenFile) throws FileNotFoundException {
-        ArrayList<ArrayList<Color>> encodedColors = new ArrayList<>();
         FileInputStream f = new FileInputStream(hiddenFile);
 
-        byte[] hiddenBytes = new byte[(int)hiddenFile.length()];
-
+        byte[] hiddenBytes = new byte[(int) hiddenFile.length() + 1];
+        hiddenBytes[(int) hiddenFile.length()] = (byte) '\0';
         System.out.println("Hidden Bytes Length: " + hiddenBytes.length);
 
         System.out.println("Encoded File Started");
 
-        for (ArrayList<Color> a : file) {
-            encodedColors.add(new ArrayList<>());
-        }
-
         int byteCount = 0;
-        
+
         for (int x = 0; x < file.size(); x++) {
-            for (int y = 0; y < file.get(0).size(); y++) {
-                
-                for(int b=0; b<8; b+=2){
-                    Color c = encodeColor(file.get(x).get(y), hiddenBytes[byteCount], b);
+            for (int y = 0; y < file.get(x).size(); y++) {
+
+                for (int b = 0; b < 8; b += 2) {
+
+                    if (y >= 6000) {
+                        System.out.println("This broke Y");
+                    }
+
+                    Color c = encodeColor(
+                            file.get(x).get(y), 
+                            hiddenBytes[byteCount],
+                            b
+                    );
                     file.get(x).set(y, c);
-                    if(cycle == 0){
+                    if (cycle == 0 && y < 5999) {
                         y++;
                     }
                 }
                 byteCount++;
-                if(byteCount >= hiddenBytes.length){
+                if (byteCount >= hiddenBytes.length) {
                     System.out.println("Encoded File Done");
                     return file;
                 }
