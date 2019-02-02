@@ -1,9 +1,8 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
 
-#include <string>;
-#include <vector>;
-#include <iostream>;
-#include <fstream>;
-#include <png.h>;
 
 
 class Driver
