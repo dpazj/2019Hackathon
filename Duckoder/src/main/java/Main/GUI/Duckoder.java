@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.BorderLayout;
@@ -14,6 +15,7 @@ import javax.swing.JTextArea;
 import java.awt.Button;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -78,6 +80,7 @@ public class Duckoder {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(112, 128, 144));
 		frame.setBounds(100, 100, 720, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -87,6 +90,7 @@ public class Duckoder {
 		textField = new JTextArea();
 		textField.setLineWrap(true);
 		textField.setBounds(478, 10, 211, 358);
+		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -112,6 +116,7 @@ public class Duckoder {
 		});
 		
 		beforeDir.setBounds(10, 379, 346, 20);
+		beforeDir.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		frame.getContentPane().add(beforeDir);
 		beforeDir.setColumns(10);
 		
@@ -138,9 +143,14 @@ public class Duckoder {
 		
 		afterDir.setColumns(10);
 		afterDir.setBounds(10, 410, 346, 20);
+		afterDir
+		.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		frame.getContentPane().add(afterDir);
 		
 		JButton beforeBtn = new JButton("OK");
+		beforeBtn.setForeground(new Color(0, 0, 0));
+		beforeBtn.setBackground(new Color(211, 211, 211));
+		beforeBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		beforeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -168,6 +178,8 @@ public class Duckoder {
 		frame.getContentPane().add(beforeBtn);
 		
 		JButton afterBtn = new JButton("OK");
+		afterBtn.setBackground(new Color(211, 211, 211));
+		afterBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
 		afterBtn.addMouseListener(new MouseAdapter() {
 			@Override
@@ -179,6 +191,8 @@ public class Duckoder {
 		frame.getContentPane().add(afterBtn);
 		
 		JButton submitBtn = new JButton("Submit");
+		submitBtn.setBackground(new Color(220, 220, 220));
+		submitBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
 		submitBtn.addMouseListener(new MouseAdapter() {
 			@Override
