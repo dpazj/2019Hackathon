@@ -30,20 +30,51 @@ public class EncoderDecoder {
         }
     }
 
-    public ArrayList<Color> encodeColors(ArrayList<Color> file, File hiddenFile) throws FileNotFoundException {
-        ArrayList<Color> encodedColors = null;
+    public ArrayList<ArrayList<Color>> encodeColors(ArrayList<ArrayList<Color>> file, File hiddenFile) throws FileNotFoundException {
+        ArrayList<ArrayList<Color>> encodedColors = new ArrayList<>();
         FileInputStream f = new FileInputStream(hiddenFile);
 
         byte[] hiddenBytes = new byte[(int) hiddenFile.length()];
 
-        for (int c = 0; c < hiddenBytes.length; c++) {
-            for (int b = 0; b < 8; b += 2) {
-                encodeColor(file.get(c), hiddenBytes[c], b);
-                if (cycle == 0) {
-                    c++;
+        System.out.println("Encoded File Started");
+
+        for (ArrayList<Color> a : file) {
+            encodedColors.add(new ArrayList<>());
+        }
+
+        int byteCount = 0;
+        for (int x = 0; x < file.size(); x++) {
+            //System.out.println("X: " + x);
+            for (int y = 0; y < file.get(0).size(); y++) {
+                //System.out.println("Y: " + file.get(0).size());
+
+                if (byteCount >= hiddenBytes.length - 1) {
+                    encodedColors.get(x).add(file.get(x).get(y));
+                } else {
+                    for (int b = 0; b < 8; b += 2) {
+                        //System.out.println("BYTECOUNT: " + byteCount + " B: " + b);
+                        if (y > 6000) {
+                            System.out.println("This Breaks y: " + y);
+                        }
+                        Color c = encodeColor(file.get(x).get(y), hiddenBytes[byteCount], b);
+                        encodedColors.get(x).add(c);
+
+                        if (y >= file.get(0).size() - 1) {
+                            return encodedColors;
+                        }
+
+                        if (cycle == 0) {
+                            y++;
+                        }
+                    }
+                }
+                if (byteCount < hiddenBytes.length - 1) {
+                    byteCount++;
                 }
             }
         }
+
+        System.out.println("Encoded File Done");
         return encodedColors;
     }
 
@@ -54,8 +85,8 @@ public class EncoderDecoder {
         //Red
         if (cycle == 0) {
             byte red = (byte) c.getRed();
-            System.out.println();
-            BitSet redBits = BitSet.valueOf(new byte[] { red });
+            //System.out.println();
+            BitSet redBits = BitSet.valueOf(new byte[]{red});
 
             if (getBitSet(b, pointer)) {
                 red |= 1 << 0;
@@ -67,19 +98,18 @@ public class EncoderDecoder {
             } else {
                 red &= ~(1 << 1);
             }
-            
+
             int green = newC.getGreen();
             int blue = newC.getBlue();
-            
-            System.out.println("Red: " + (red & 0xFF));
-            
+
+            //System.out.println("Red: " + (red & 0xFF));
             newC = new Color(red & 0xFF, newC.getGreen(), newC.getBlue());
         }
 
         //Green
         if (cycle == 1) {
             byte green = (byte) c.getGreen();
-            BitSet greenBits = BitSet.valueOf(new byte[] { green });
+            BitSet greenBits = BitSet.valueOf(new byte[]{green});
 
             if (getBitSet(b, pointer)) {
                 green |= 1 << 0;
@@ -91,16 +121,15 @@ public class EncoderDecoder {
             } else {
                 green |= 0 << 1;
             }
-            
-            System.out.println("Green: " + (green & 0xFF));
-            
+
+            //System.out.println("Green: " + (green & 0xFF));
             newC = new Color(newC.getRed(), green & 0xFF, newC.getBlue());
         }
 
         //Blue
         if (cycle == 2) {
             byte blue = (byte) c.getBlue();
-            BitSet blueBits = BitSet.valueOf(new byte[] { blue });
+            BitSet blueBits = BitSet.valueOf(new byte[]{blue});
 
             if (getBitSet(b, pointer)) {
                 blue |= 1 << 0;
@@ -112,9 +141,8 @@ public class EncoderDecoder {
             } else {
                 blue |= 0 << 1;
             }
-            
-            System.out.println("Blue: " + (blue & 0xFF));
-            
+
+            //System.out.println("Blue: " + (blue & 0xFF));
             newC = new Color(newC.getRed(), newC.getGreen(), blue & 0xFF);
         }
 

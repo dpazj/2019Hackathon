@@ -25,14 +25,17 @@ public class Driver {
         System.out.print(f.isFile());
         EncodingFile ef = new EncodingFile(f);
         ef.setEncodingFile(f);
-        ArrayList<Color> test = ef.getRGBValues();
 
+        ArrayList<ArrayList<Color>> test = ef.getRGBValues();
+        
+        
         File file = new File("test.txt");
         EncoderDecoder e = new EncoderDecoder();
-        ArrayList<Color> encodedColors = e.encodeColors(test, file);
-        //System.out.println(encodedColors.size());
-        ArrayList<ArrayList<Color>> test = ef.getRGBValues();
-        createFile(ef.createEncodedFile(test));
+        
+        ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
+        System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
+        createFile(ef.createEncodedFile(encodedColors));
+        
     }
 
     public static void createFile(BufferedImage bf){
