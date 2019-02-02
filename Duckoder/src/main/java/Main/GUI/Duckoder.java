@@ -9,6 +9,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
 import java.awt.Button;
 
 import javax.imageio.ImageIO;
@@ -28,7 +30,7 @@ import java.io.IOException;
 public class Duckoder {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextArea textField;
 	private JTextField beforeDir;
 	private JTextField afterDir;
 	private JLabel beforeImg;
@@ -49,6 +51,20 @@ public class Duckoder {
 			}
 		});
 	}
+	
+	/**
+	 * Sets new (after) image
+	 * @param image new image
+	 */
+	public void setNewImage(BufferedImage image) {
+		if (afterImg!=null) {
+			frame.getContentPane().remove(afterImg);
+		}
+		afterImg = new JLabel(new ImageIcon(image.getScaledInstance(221, 358, Image.SCALE_DEFAULT)));
+		afterImg.setBounds(244, 10, 211, 358);
+		frame.getContentPane().add(afterImg);
+		frame.getContentPane().repaint();
+	}
 
 	/**
 	 * Create the application.
@@ -66,17 +82,10 @@ public class Duckoder {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
-//		
-//		beforeImg = new JLabel();
-//		beforeImg.setText("A");
-//		beforeImg.setBounds(10, 10, 211, 358);
-//		frame.getContentPane().add(beforeImg);
+		frame.setTitle("Duckoder");
 		
-		afterImg = new JLabel();
-		afterImg.setBounds(244, 10, 211, 358);
-		frame.getContentPane().add(afterImg);
-		
-		textField = new JTextField();
+		textField = new JTextArea();
+		textField.setLineWrap(true);
 		textField.setBounds(478, 10, 211, 358);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
@@ -144,7 +153,7 @@ public class Duckoder {
 					if (beforeImg!=null) {
 						frame.getContentPane().remove(beforeImg);
 					}
-					beforeImg = new JLabel(new ImageIcon(beforeImage.getScaledInstance(221, 358, Image.SCALE_FAST)));
+					beforeImg = new JLabel(new ImageIcon(beforeImage.getScaledInstance(221, 358, Image.SCALE_DEFAULT)));
 					beforeImg.setBounds(10, 10, 211, 358);
 					frame.getContentPane().add(beforeImg);
 					frame.getContentPane().repaint();
@@ -174,6 +183,15 @@ public class Duckoder {
 		submitBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//TODO: REMOVE TEST IMAGE
+				try {
+					BufferedImage test = ImageIO.read(new File("C:\\Users\\emilijabudryte\\Documents\\GitHub\\2019Hackathon\\Duckoder\\monalisa.png"));
+					setNewImage(test);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		
