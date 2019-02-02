@@ -23,7 +23,8 @@ public class Driver {
         System.out.print(f.isFile());
         EncodingFile ef = new EncodingFile(f);
         ef.setEncodingFile(f);
-        ArrayList<Color> test = ef.getRGBValues();
+        ArrayList<Integer> test = ef.getRGBValues();
+        return;
         
         
        
