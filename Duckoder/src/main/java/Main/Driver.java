@@ -7,6 +7,7 @@ package Main;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  */
 public class Driver {
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException{
         
         File f = new File("monalisa.png");
         
@@ -23,12 +24,12 @@ public class Driver {
         System.out.print(f.isFile());
         EncodingFile ef = new EncodingFile(f);
         ef.setEncodingFile(f);
-        ArrayList<Integer> test = ef.getRGBValues();
-        return;
-        
-        
+        ArrayList<Color> test = ef.getRGBValues();        
        
-        
+        File file = new File("test.txt");
+        EncoderDecoder e = new EncoderDecoder();
+        ArrayList<Color> encodedColors = e.encodeColors(test, file);
+        //System.out.println(encodedColors.size());
         
     }
 }
