@@ -1,12 +1,26 @@
-#pragma once
+
+#include <string>;
+#include <vector>;
+#include <iostream>;
+#include <fstream>;
+
+
 class Driver
 {
+	using byte = unsigned char;
 public:
 	Driver();
 	~Driver();
+	void setEncodingFile(std::string fileName);
+
+	
+
+
 
 private:
-	int BITS_USED;
+	unsigned int BITS_USED;
+	std::vector<unsigned int> file;
+
 
 
 };
