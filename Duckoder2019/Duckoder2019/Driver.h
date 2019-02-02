@@ -3,6 +3,7 @@
 #include <vector>;
 #include <iostream>;
 #include <fstream>;
+#include <png.h>;
 
 
 class Driver
