@@ -102,8 +102,6 @@ public class Duckoder {
 			public void mouseClicked(MouseEvent e) 
 			{
 				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("image","png");
-				chooser.setFileFilter(filter);
 				
 				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				{
