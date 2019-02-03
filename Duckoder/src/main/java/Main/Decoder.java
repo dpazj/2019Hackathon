@@ -17,7 +17,6 @@ public class Decoder {
 
     private Color[][] imageColor;
     private Color[][] encodedColor;
-    private BufferedImage img;
     private BufferedImage encodedImg;
     ArrayList<ArrayList<Color>> encodedExam;
 
@@ -26,22 +25,21 @@ public class Decoder {
 
     public Decoder() {
 
-        BufferedImage img = null;
+        BufferedImage encodedImg = null;
 
         try {
 
-            img = ImageIO.read(new File("encoded.png"));
-            encodedImg = img;
+            encodedImg = ImageIO.read(new File("encoded.png"));
 
-            width = img.getWidth();
-            height = img.getHeight();
+            width = encodedImg.getWidth();
+            height = encodedImg.getHeight();
 
             encodedExam = new ArrayList<>();
 
             for (int i = 0; i < width; i++) {
                 ArrayList<Color> tmp = new ArrayList<>();
                 for (int j = 0; j < height; j++) {
-                    Color c = new Color(img.getRGB(i, j));
+                    Color c = new Color(encodedImg.getRGB(i, j));
                     // System.out.println(c.getRed() + " " + c.getGreen() + " " + c.getBlue());
                     tmp.add(c);
                 }
@@ -56,28 +54,29 @@ public class Decoder {
     }
 
     public int decodeText() {
-        
-        byte endOfFile = 0;
-        int counter = 0;
-        int red,green,blue;
-        ArrayList<Byte> decodedTwoBits = new ArrayList<>();
-        ArrayList<Byte> decodedBytes = new ArrayList<>();
 
-        for(int i = 0; i < width; i++){
-            for(int j = 0;j < height; j++){
-                red = encodedExam.get(i).get(j).getRed() & 0b11;
-                green = encodedExam.get(i).get(j).getGreen() & 0b11;
-                blue = encodedExam.get(i).get(j).getBlue() & 0b11;
+        int endOfFile = 0;
+        int counter = 0;
+        byte red, green, blue;
+        ArrayList<Byte> decodedTwoBits = new ArrayList<>();
+        System.out.print("width:" + encodedExam.size() + "Height: " + encodedExam.get(0).size());
+        for (int i = 0; i < encodedExam.size(); i++) {
+            for (int j = 0; j < encodedExam.get(0).size(); j++) {
+                red = (byte) (encodedExam.get(i).get(j).getRed() & 0b11);
+                green = (byte) (encodedExam.get(i).get(j).getGreen() & 0b11);
+                blue = (byte) (encodedExam.get(i).get(j).getBlue() & 0b11);
                 //System.out.println(red +" "+green+" "+blue);
-                decodedTwoBits.add((byte)red);
-                decodedTwoBits.add((byte)green);
-                decodedTwoBits.add((byte)blue);
+                decodedTwoBits.add(red);
+                decodedTwoBits.add(green);
+                decodedTwoBits.add(blue);
             }
         }
-        System.out.println("hellooo");
-        /*
-        while(endOfFile != 25){
+        System.out.println("hellooo: size: ");
+        System.out.println(decodedTwoBits.size());
+        boolean ass = true;
+        while(endOfFile != 26){
             int a,b,c,d;
+            
             a = decodedTwoBits.get(counter);
             counter++;
             b = decodedTwoBits.get(counter);
@@ -85,10 +84,10 @@ public class Decoder {
             c = decodedTwoBits.get(counter);
             counter++;
             d = decodedTwoBits.get(counter);
-            endOfFile = (byte) ((a << 6) & (b << 4) & (c << 2) & d);
-            System.out.println(endOfFile);
+            endOfFile = ((a << 6) | (b << 4) | (c << 2) | d);
+            System.out.print((char)endOfFile);
             counter++;
-        }*/
+        }
 
         return 0;
     }

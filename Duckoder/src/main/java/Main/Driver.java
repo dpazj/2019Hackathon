@@ -20,10 +20,17 @@ import javax.imageio.ImageIO;
 public class Driver {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-
+          encode();
+        // decode();
+        
+        
+        
+    }
+    
+    public static void encode() throws FileNotFoundException, IOException{
         File f = new File("monalisa.png");
 
-        System.out.print(f.isFile());
+        //System.out.print(f.isFile());
         EncodingFile ef = new EncodingFile(f);
         ef.setEncodingFile(f);
 
@@ -31,15 +38,18 @@ public class Driver {
 
         File file = new File("test.txt");
         Encoder e = new Encoder();
-        Decoder d = new Decoder();
+        //
 
         ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
         System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
         BufferedImage bi = ef.createEncodedFile(encodedColors);
         createFile(bi);
         //compareFile(ef.getEncodingFile(),bi);
+        //
+    }
+    public static  void decode(){ 
+        Decoder d = new Decoder();
         d.decodeText();
-        
     }
 
     public static void compareFile(BufferedImage original, BufferedImage changed) {
