@@ -10,6 +10,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 
 import java.awt.Button;
@@ -31,7 +34,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Duckoder {
+public class Duckoder implements ActionListener{
 
 	private JFrame frame;
 	private JTextArea textField;
@@ -40,6 +43,7 @@ public class Duckoder {
 	private JLabel beforeImg;
 	private JLabel afterImg;
 	private BufferedImage newImage;
+	private Boolean isEncoding = true;
 
 	/**
 	 * Launch the application.
@@ -85,11 +89,24 @@ public class Duckoder {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(112, 128, 144));
-		frame.setBounds(100, 100, 720, 480);
+		frame.setBounds(100, 100, 720, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
-		frame.setTitle("Duckoder");
+		frame.setTitle("Duckoder - Encode");
+		
+		JMenuBar menubar = new JMenuBar();
+		JMenu menu = new JMenu("Menu");
+		JMenuItem item = new JMenuItem("Encode");
+		item.addActionListener(this);
+		menu.add(item);
+		item = new JMenuItem("Decode");
+		item.addActionListener(this);
+		menu.add(item);
+		menubar.add(menu);
+		menu.addSeparator();
+		
+		frame.setJMenuBar(menubar);
 		
 		textField = new JTextArea();
 		textField.setLineWrap(true);
@@ -230,5 +247,18 @@ public class Duckoder {
 		
 		submitBtn.setBounds(478, 379, 211, 50);
 		frame.getContentPane().add(submitBtn);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JMenuItem source = (JMenuItem) (e.getSource());
+		String text = source.getText();
+		if (text.equals("Encode")) {
+			frame.setTitle("Duckoder - Encode");
+			isEncoding = true;
+		} else {
+			frame.setTitle("Duckoder - Decode");
+			isEncoding = false;
+		}
 	}
 }
