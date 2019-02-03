@@ -29,6 +29,18 @@ public class Driver {
     public Driver(){
     }
     
+    public static void main(String[] args) throws IOException{
+        Driver driver = new Driver();
+        try{
+            driver.encode();
+            driver.decode();
+        }catch(IOException e){
+        
+        }
+        
+        
+    }
+    
     
     public BufferedImage encode() throws FileNotFoundException, IOException{
         File f = new File("monalisa.png");
