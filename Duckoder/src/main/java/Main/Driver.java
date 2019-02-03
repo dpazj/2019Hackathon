@@ -31,12 +31,14 @@ public class Driver {
 
         File file = new File("test.txt");
         Encoder e = new Encoder();
+        Decoder d = new Decoder();
 
         ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
         System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
         BufferedImage bi = ef.createEncodedFile(encodedColors);
         createFile(bi);
         //compareFile(ef.getEncodingFile(),bi);
+        d.decodeText();
         
     }
 
