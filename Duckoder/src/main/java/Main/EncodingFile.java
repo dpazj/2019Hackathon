@@ -74,8 +74,9 @@ public class EncodingFile {
         return img;
     }
     
-    public BufferedImage getOriginalFile(){
+    public BufferedImage getEncodingFile(){
         return this.encodingFile;
     }
+        
     
 }

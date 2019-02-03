@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+
 /**
  *
  * @author Douglas
@@ -38,121 +39,47 @@ public class Encoder {
         byte[] hiddenBytes = new byte[(int) hiddenFile.length() + 1];
         f.read(hiddenBytes);
         
-        hiddenBytes[(int) hiddenFile.length()] = (byte) '\0';
+        hiddenBytes[(int) hiddenFile.length()] = (byte) 26;
         System.out.println("Hidden Bytes Length: " + hiddenBytes.length);
-        
-//        for (byte b : hiddenBytes){
-//            System.out.println(b & 0xFF);
-//        }
-        
-        System.out.println("Encoded File Started");
-
-        int byteCount = 0;
-
-        for (int x = 0; x < file.size(); x++) {
-            for (int y = 0; y < file.get(x).size(); y++) {
-
-                for (int b = 0; b < 8; b += 2) {
-
-                    if (y >= 6000) {
-                        System.out.println("This broke Y");
-                    }
-
-                    Color c = encodeColor(
-                            file.get(x).get(y), 
-                            hiddenBytes[byteCount],
-                            b
-                    );
-                    file.get(x).set(y, c);
-                    if (cycle == 0 && y < 5999) {
-                        y++;
-                    }
-                }
-                byteCount++;
-                if (byteCount >= hiddenBytes.length) {
-                    System.out.println("Encoded File Done");
-                    return file;
-                }
-            }
+        ArrayList<Integer> twoBits = new ArrayList<>();
+        for(byte b: hiddenBytes){
+            int a,b1,c,d;
+            d = b & 0b11; c = (b >> 2) & 0b11; b1 = (b >> 4) & 0b11; a = (b >> 6) & 0b11;
+            twoBits.add(a);
+            twoBits.add(b1);
+            twoBits.add(c);
+            twoBits.add(d);
+            //System.out.println(b+" "+a + " " + b1 + " " + c + " " + d);
         }
+        
+        while(twoBits.size() % 3 != 0){twoBits.add(0);}
+       // System.out.print(twoBits.size() % 3);
+        int x = 0;
+        int y = -1;
+        
+        for(int i = 0; i < twoBits.size(); i+=3){
+            y++;
+            int red = (file.get(x).get(y).getRed() & 0xFC) | twoBits.get(i);
+            int green = (file.get(x).get(y).getGreen() & 0xFC) | twoBits.get(i + 1);
+            int blue = (file.get(x).get(y).getBlue() & 0xFC) | twoBits.get(i + 2);
+          //  System.out.println(red + " " + green + " " + blue);
+            Color c = new Color(red,green,blue);
+            //System.out.println(c.getRed() + " " + c.getGreen() + " " + c.getBlue());
+            file.get(x).set(y, c);
+            //System.out.println(file.get(x).get(y).getRed() + " " + file.get(x).get(y).getGreen() + " " + file.get(x).get(y).getBlue());
+           // System.out.println(x +" " + y);
+           // System.out.println(" ");
+            if(y == file.size() - 1){x++;y=0;}
+        }
+        
+        
+        System.out.print("Done");
+       
+        
+        
         return file;
     }
 
-    private Color encodeColor(Color c, byte b, int pointer) {
-        Color newC = c;
-        pointer = 7 - pointer;
-
-        //Red
-        if (cycle == 0) {
-            byte red = (byte) c.getRed();
-            //System.out.println();
-            BitSet redBits = BitSet.valueOf(new byte[]{red});
-
-            if (getBitSet(b, pointer)) {
-                red |= 1 << 0;
-            } else {
-                red &= ~(1 << 0);
-            }
-            if (getBitSet(b, pointer + 1)) {
-                red |= 1 << 1;
-            } else {
-                red &= ~(1 << 1);
-            }
-
-            int green = newC.getGreen();
-            int blue = newC.getBlue();
-
-            //System.out.println("Red: " + (red & 0xFF));
-            newC = new Color(red & 0xFF, newC.getGreen(), newC.getBlue());
-        }
-
-        //Green
-        if (cycle == 1) {
-            byte green = (byte) c.getGreen();
-            BitSet greenBits = BitSet.valueOf(new byte[]{green});
-
-            if (getBitSet(b, pointer)) {
-                green |= 1 << 0;
-            } else {
-                green &= ~(1 << 0);
-            }
-            if (getBitSet(b, pointer + 1)) {
-                green |= 1 << 1;
-            } else {
-                green &= ~(1 << 1);
-            }
-
-            //System.out.println("Green: " + (green & 0xFF));
-            newC = new Color(newC.getRed(), green & 0xFF, newC.getBlue());
-        }
-
-        //Blue
-        if (cycle == 2) {
-            byte blue = (byte) c.getBlue();
-            BitSet blueBits = BitSet.valueOf(new byte[]{blue});
-
-            if (getBitSet(b, pointer)) {
-                blue |= 1 << 0;
-            } else {
-                blue &= ~(1 << 0);
-            }
-            if (getBitSet(b, pointer + 1)) {
-                blue |= 1 << 1;
-            } else {
-                blue &= ~(1 << 1);
-            }
-
-            //System.out.println("Blue: " + (blue & 0xFF));
-            newC = new Color(newC.getRed(), newC.getGreen(), blue & 0xFF);
-        }
-
-        if (cycle >= 2) {
-            cycle = 0;
-        } else {
-            cycle++;
-        }
-
-        return newC;
-    }
+   
 
 }

@@ -33,10 +33,10 @@ public class Driver {
         Encoder e = new Encoder();
 
         ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
-        System.out.println("X: " + encodedColors.size() + " Y: " + encodedColors.get(0).size());
-        BufferedImage bf = ef.createEncodedFile(encodedColors);
-        createFile(bf);
-        compareFile(ef.getOriginalFile(),bf);
+        System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
+        BufferedImage bi = ef.createEncodedFile(encodedColors);
+        createFile(bi);
+        //compareFile(ef.getEncodingFile(),bi);
         
     }
 
@@ -63,4 +63,5 @@ public class Driver {
         }
 
     }
+    
 }
