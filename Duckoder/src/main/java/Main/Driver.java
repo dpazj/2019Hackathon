@@ -32,13 +32,12 @@ public class Driver {
     public static void main(String[] args) throws IOException{
         Driver driver = new Driver();
         try{
-            driver.encode();
-           // driver.decode();
+            //driver.encode();
+            driver.decode();
         }catch(IOException e){
         
         }
-        
-        
+
     }
     
     
@@ -51,7 +50,7 @@ public class Driver {
 
         ArrayList<ArrayList<Color>> test = ef.getRGBValues();
 
-        File file = new File("welp.gif");
+        File file = new File("duck.jpg");
         Encoder e = new Encoder();
         //
 

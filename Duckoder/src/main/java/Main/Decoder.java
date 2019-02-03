@@ -103,7 +103,7 @@ public class Decoder {
             byteArray[i] = bytes.get(i);
         }
         
-        FileOutputStream fs = new FileOutputStream("demo.gif");
+        FileOutputStream fs = new FileOutputStream("woah_nice_duck.jpg");
 
         fs.write(byteArray);
         fs.flush();
