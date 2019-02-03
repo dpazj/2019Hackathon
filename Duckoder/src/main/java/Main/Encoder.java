@@ -27,13 +27,18 @@ public class Encoder {
     public ArrayList<ArrayList<Color>> encodeColors(ArrayList<ArrayList<Color>> file, File hiddenFile) throws FileNotFoundException, IOException {
         FileInputStream f = new FileInputStream(hiddenFile);
 
-        byte[] hiddenBytes = new byte[(int) hiddenFile.length() + 1];
+        byte[] hiddenBytes = new byte[(int) hiddenFile.length() + 6];
         f.read(hiddenBytes);
         
         for(byte a : hiddenBytes){
-            System.out.print((char) a);
+            //System.out.print((char) a);
         }
         
+        hiddenBytes[(int) hiddenFile.length()-5] = (byte) 26;
+        hiddenBytes[(int) hiddenFile.length()-4] = (byte) 'D';
+        hiddenBytes[(int) hiddenFile.length()-3] = (byte) 'U';
+        hiddenBytes[(int) hiddenFile.length()-2] = (byte) 'C';
+        hiddenBytes[(int) hiddenFile.length()-1] = (byte) 'S';
         hiddenBytes[(int) hiddenFile.length()] = (byte) 26;
         
         int x = 0;
@@ -42,12 +47,12 @@ public class Encoder {
             y++;
             byte temp = hiddenBytes[i];
             //System.out.println("red: "+ (temp & 0b11) + " " + (file.get(x).get(y).getRed() & 0xFC));
-            System.out.println(" ");
+            //System.out.println(" ");
             int red = (file.get(x).get(y).getRed() & 0xFC) | ((temp >> 6) & 0b11);
             int green = (file.get(x).get(y).getGreen() & 0xFC) | ((temp >> 4)& 0b11);
             int blue = (file.get(x).get(y).getBlue() & 0xFC) | ((temp >> 2)& 0b11);
             int alpha = (file.get(x).get(y).getAlpha() & 0xFC) | (temp & 0b11);
-            System.out.println(red + " " + green +" "+ blue +" "+ alpha);
+            //System.out.println(red + " " + green +" "+ blue +" "+ alpha);
             Color c = new Color(red,green,blue,alpha);
             c = new Color(c.getRGB(),true);
             file.get(x).set(y, c);

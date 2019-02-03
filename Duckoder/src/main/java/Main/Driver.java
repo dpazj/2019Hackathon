@@ -21,10 +21,7 @@ public class Driver {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         encode();
-        decode();
-        
-        
-        
+        decode(); 
     }
     
     public static void encode() throws FileNotFoundException, IOException{
@@ -41,7 +38,7 @@ public class Driver {
         //
 
         ArrayList<ArrayList<Color>> encodedColors = e.encodeColors(test, file);
-        System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
+        //System.out.println("X: "+ encodedColors.size() + " Y: " + encodedColors.get(0).size());
         BufferedImage bi = ef.createEncodedFile(encodedColors);
         createFile(bi);
         //compareFile(ef.getEncodingFile(),bi);

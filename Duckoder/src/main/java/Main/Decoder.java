@@ -59,6 +59,8 @@ public class Decoder {
     public int decodeText() throws FileNotFoundException, IOException {
 
         int endOfFile = 0;
+        char[] prevChars = new char[6];
+        int counter = 0;
         int y = -1;
         int x = 0;
         byte red, green, blue, alpha;
@@ -66,7 +68,7 @@ public class Decoder {
                
         
         ArrayList<Byte> bytes = new ArrayList<>();
-        while(endOfFile != 26){
+        while(!prevChars.toString().equals('\0'+"DUCS"+'\0')){
             y++;
             red = (byte) (encodedExam.get(x).get(y).getRed() & 0b11);
             green = (byte) (encodedExam.get(x).get(y).getGreen() & 0b11);
@@ -76,9 +78,18 @@ public class Decoder {
             //System.out.println(red + " " + green +" "+ blue +" "+ alpha);
  
             endOfFile = ((red << 6) | (green << 4) | (blue << 2) | alpha);
-            System.out.print((char)endOfFile);
+            //System.out.print((char)endOfFile);
             if(y == encodedExam.size() ){x++;y=0;}
             bytes.add((byte)endOfFile);
+            prevChars[counter] = (char) endOfFile;
+            counter++;
+            if(counter == 5){
+                counter = 0;
+            }
+        }
+        
+        for(int i=0; i<6; i++){
+            bytes.remove(bytes.size());
         }
         
         byte[] byteArray = new byte[bytes.size()];
