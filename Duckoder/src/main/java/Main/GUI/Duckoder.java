@@ -29,6 +29,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import Main.Driver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Duckoder {
 
 	private JFrame frame;
@@ -38,7 +42,7 @@ public class Duckoder {
 	private JLabel beforeImg;
 	private JLabel afterImg;
 	private BufferedImage newImage;
-
+        private Driver driver;
 	/**
 	 * Launch the application.
 	 */
@@ -51,6 +55,7 @@ public class Duckoder {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+                                
 			}
 		});
 	}
@@ -75,6 +80,7 @@ public class Duckoder {
 	 */
 	public Duckoder() {
 		initialize();
+                driver = new Driver();
 	}
 
 	/**
@@ -149,14 +155,15 @@ public class Duckoder {
 		.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		frame.getContentPane().add(afterDir);
 		
-		JButton beforeBtn = new JButton("OK");
+		JButton beforeBtn = new JButton("Add Encode file");
 		beforeBtn.setForeground(new Color(0, 0, 0));
 		beforeBtn.setBackground(new Color(211, 211, 211));
 		beforeBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		beforeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String path = beforeDir.getText();
+				String path = beforeDir.getText(); 
+                                driver.encodePath = path;
 				BufferedImage beforeImage;
 				try {
 					beforeImage = ImageIO.read(new File(path));
@@ -177,7 +184,7 @@ public class Duckoder {
 		beforeBtn.setBounds(366, 379, 89, 20);
 		frame.getContentPane().add(beforeBtn);
 		
-		JButton afterBtn = new JButton("OK");
+		JButton afterBtn = new JButton("Add secret file");
 		afterBtn.setBackground(new Color(211, 211, 211));
 		afterBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
@@ -186,6 +193,7 @@ public class Duckoder {
 			public void mouseClicked(MouseEvent e) {
 				if (newImage!=null) {
 					String path = afterDir.getText();
+                                        driver.secrectFilePath = path;
 				}
 			}
 		});
@@ -202,7 +210,7 @@ public class Duckoder {
 			public void mouseClicked(MouseEvent e) {
 				//TODO: REMOVE TEST IMAGE
 				try {
-					BufferedImage test = ImageIO.read(new File("monalisa.png"));
+					BufferedImage test = driver.encode());
 					setNewImage(test);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

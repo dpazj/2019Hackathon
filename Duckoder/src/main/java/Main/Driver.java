@@ -19,15 +19,18 @@ import javax.imageio.ImageIO;
  */
 public class Driver {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+  /* public static void main(String[] args) throws FileNotFoundException, IOException {
         encode();
         decode();
-        
-        
-        
+ 
+    } */
+    public String encodePath;
+    public String secrectFilePath;
+    public Driver(){
     }
     
-    public static void encode() throws FileNotFoundException, IOException{
+    
+    public BufferedImage encode() throws FileNotFoundException, IOException{
         File f = new File("monalisa.png");
 
         //System.out.print(f.isFile());
@@ -36,7 +39,7 @@ public class Driver {
 
         ArrayList<ArrayList<Color>> test = ef.getRGBValues();
 
-        File file = new File("welp.gif");
+        File file = new File("test.txt");
         Encoder e = new Encoder();
         //
 
@@ -46,13 +49,14 @@ public class Driver {
         createFile(bi);
         //compareFile(ef.getEncodingFile(),bi);
         //
+        return bi;
     }
-    public static  void decode() throws IOException{ 
+    public  void decode() throws IOException{ 
         Decoder d = new Decoder();
         d.decodeText();
     }
 
-    public static void compareFile(BufferedImage original, BufferedImage changed) {
+    public void compareFile(BufferedImage original, BufferedImage changed) {
         for (int i = 0; i < 20; i++) {
             Color c = new Color(original.getRGB(0, i),true);
             Color c1 = new Color(changed.getRGB(0, i),true);
@@ -64,7 +68,7 @@ public class Driver {
 
     
 
-    public static void createFile(BufferedImage bf) {
+    public void createFile(BufferedImage bf) {
 
         File file = new File("encoded.png");
         try {
