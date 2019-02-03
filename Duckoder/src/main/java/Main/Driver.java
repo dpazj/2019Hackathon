@@ -64,13 +64,4 @@ public class Driver {
 
     }
     
-    public static void compareFile(BufferedImage original, BufferedImage changed){
-        for(int i = 0; i < 20; i++){
-            Color c = new Color(original.getRGB(0, i));
-            Color c1 = new Color(changed.getRGB(0, i));
-            System.out.println("Original: " + c.getRed() + " " +c.getGreen() + " " + c.getBlue());
-            System.out.println("Changed: " + c1.getRed() + " " +c1.getGreen() + " " + c1.getBlue());
-            System.out.println(" ");
-        }
-    }
 }
