@@ -34,12 +34,12 @@ public class Encoder {
             //System.out.print((char) a);
         }
         
-        hiddenBytes[(int) hiddenFile.length()-5] = (byte) 'D';
-        hiddenBytes[(int) hiddenFile.length()-4] = (byte) 'U';
-        hiddenBytes[(int) hiddenFile.length()-3] = (byte) 'U';
-        hiddenBytes[(int) hiddenFile.length()-2] = (byte) 'U';
-        hiddenBytes[(int) hiddenFile.length()-1] = (byte) 'C';
-        hiddenBytes[(int) hiddenFile.length()] = (byte) 'S';
+        hiddenBytes[(int) hiddenFile.length()-5] =   '\0';
+        hiddenBytes[(int) hiddenFile.length()-4] =   '\0';
+        hiddenBytes[(int) hiddenFile.length()-3] =   '\0';
+        hiddenBytes[(int) hiddenFile.length()-2] =   '\0';
+        hiddenBytes[(int) hiddenFile.length()-1] =   '\0';
+        hiddenBytes[(int) hiddenFile.length()] =    '\0';
         
         int x = 0;
         int y = -1;
@@ -56,7 +56,7 @@ public class Encoder {
             Color c = new Color(red,green,blue,alpha);
             c = new Color(c.getRGB(),true);
             file.get(x).set(y, c);
-            if(y == file.size() ){x++;y=0;}
+            if(y == file.get(x).size() -1){x++;y=-1;}
             //System.out.println(file.get(x).get(y).getRed() + " " + file.get(x).get(y).getGreen() + " " + file.get(x).get(y).getBlue() + " " + file.get(x).get(y).getAlpha());
         }
 

@@ -69,7 +69,7 @@ public class Decoder {
                
         
         ArrayList<Byte> bytes = new ArrayList<>();
-        while(!(prev.equals("DUUUCS"))){
+        while(!(prev.equals('\0' + '\0' + '\0' + '\0' + '\0' + '\0')) && x < encodedExam.size() - 1){
             y++;
             red = (byte) (encodedExam.get(x).get(y).getRed() & 0b11);
             green = (byte) (encodedExam.get(x).get(y).getGreen() & 0b11);
@@ -80,12 +80,12 @@ public class Decoder {
  
             endOfFile = ((red << 6) | (green << 4) | (blue << 2) | alpha);
             //System.out.print((char)endOfFile);
-            if(y == encodedExam.size() ){x++;y=0;}
+            if(y == encodedExam.get(x).size() -1){x++;y=-1;}
             bytes.add((byte)endOfFile);
             prevChars[counter] = (char) endOfFile;
             prev="";
             for(char c : prevChars){
-                prev+= c;
+                prev+= "" + c;
             }
             
             counter++;
@@ -103,7 +103,7 @@ public class Decoder {
             byteArray[i] = bytes.get(i);
         }
         
-        FileOutputStream fs = new FileOutputStream("new.gif");
+        FileOutputStream fs = new FileOutputStream("demo.gif");
 
         fs.write(byteArray);
         fs.flush();

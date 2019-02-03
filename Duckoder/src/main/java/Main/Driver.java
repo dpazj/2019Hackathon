@@ -33,7 +33,7 @@ public class Driver {
         Driver driver = new Driver();
         try{
             driver.encode();
-            driver.decode();
+           // driver.decode();
         }catch(IOException e){
         
         }
@@ -51,7 +51,7 @@ public class Driver {
 
         ArrayList<ArrayList<Color>> test = ef.getRGBValues();
 
-        File file = new File("test.txt");
+        File file = new File("welp.gif");
         Encoder e = new Encoder();
         //
 
