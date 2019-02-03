@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 public class Driver {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-       // encode();
+        encode();
         decode();
         
         
@@ -36,7 +36,7 @@ public class Driver {
 
         ArrayList<ArrayList<Color>> test = ef.getRGBValues();
 
-        File file = new File("test.txt");
+        File file = new File("welp.gif");
         Encoder e = new Encoder();
         //
 
@@ -47,7 +47,7 @@ public class Driver {
         //compareFile(ef.getEncodingFile(),bi);
         //
     }
-    public static  void decode(){ 
+    public static  void decode() throws IOException{ 
         Decoder d = new Decoder();
         d.decodeText();
     }

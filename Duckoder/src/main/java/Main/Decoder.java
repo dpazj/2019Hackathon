@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import static sun.security.krb5.Confounder.bytes;
 
 public class Decoder {
 
@@ -53,7 +56,7 @@ public class Decoder {
 
     }
 
-    public int decodeText() {
+    public int decodeText() throws FileNotFoundException, IOException {
 
         int endOfFile = 0;
         int y = -1;
@@ -62,7 +65,7 @@ public class Decoder {
         
                
         
-        
+        ArrayList<Byte> bytes = new ArrayList<>();
         while(endOfFile != 26){
             y++;
             red = (byte) (encodedExam.get(x).get(y).getRed() & 0b11);
@@ -75,8 +78,18 @@ public class Decoder {
             endOfFile = ((red << 6) | (green << 4) | (blue << 2) | alpha);
             System.out.print((char)endOfFile);
             if(y == encodedExam.size() ){x++;y=0;}
-            
+            bytes.add((byte)endOfFile);
         }
+        
+        byte[] byteArray = new byte[bytes.size()];
+        for(int i=0; i<bytes.size(); i++){
+            byteArray[i] = bytes.get(i);
+        }
+        
+        FileOutputStream fs = new FileOutputStream("new.gif");
+
+        fs.write(byteArray);
+        fs.flush();
 
         return 0;
     }
