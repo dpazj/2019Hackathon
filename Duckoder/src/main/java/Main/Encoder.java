@@ -34,12 +34,12 @@ public class Encoder {
             //System.out.print((char) a);
         }
         
-        hiddenBytes[(int) hiddenFile.length()-5] = (byte) 26;
-        hiddenBytes[(int) hiddenFile.length()-4] = (byte) 'D';
+        hiddenBytes[(int) hiddenFile.length()-5] = (byte) 'D';
+        hiddenBytes[(int) hiddenFile.length()-4] = (byte) 'U';
         hiddenBytes[(int) hiddenFile.length()-3] = (byte) 'U';
-        hiddenBytes[(int) hiddenFile.length()-2] = (byte) 'C';
-        hiddenBytes[(int) hiddenFile.length()-1] = (byte) 'S';
-        hiddenBytes[(int) hiddenFile.length()] = (byte) 26;
+        hiddenBytes[(int) hiddenFile.length()-2] = (byte) 'U';
+        hiddenBytes[(int) hiddenFile.length()-1] = (byte) 'C';
+        hiddenBytes[(int) hiddenFile.length()] = (byte) 'S';
         
         int x = 0;
         int y = -1;
