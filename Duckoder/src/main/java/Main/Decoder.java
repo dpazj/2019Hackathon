@@ -60,6 +60,7 @@ public class Decoder {
 
         int endOfFile = 0;
         char[] prevChars = new char[6];
+        String prev = "";
         int counter = 0;
         int y = -1;
         int x = 0;
@@ -68,7 +69,7 @@ public class Decoder {
                
         
         ArrayList<Byte> bytes = new ArrayList<>();
-        while(!prevChars.toString().equals('\0'+"DUCS"+'\0')){
+        while(!(prev.equals("DUUUCS"))){
             y++;
             red = (byte) (encodedExam.get(x).get(y).getRed() & 0b11);
             green = (byte) (encodedExam.get(x).get(y).getGreen() & 0b11);
@@ -82,14 +83,19 @@ public class Decoder {
             if(y == encodedExam.size() ){x++;y=0;}
             bytes.add((byte)endOfFile);
             prevChars[counter] = (char) endOfFile;
+            prev="";
+            for(char c : prevChars){
+                prev+= c;
+            }
+            
             counter++;
-            if(counter == 5){
+            if(counter == 6){
                 counter = 0;
             }
         }
         
         for(int i=0; i<6; i++){
-            bytes.remove(bytes.size());
+            bytes.remove(bytes.size() - 1);
         }
         
         byte[] byteArray = new byte[bytes.size()];
