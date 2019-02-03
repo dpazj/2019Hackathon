@@ -210,7 +210,7 @@ public class Duckoder {
 			public void mouseClicked(MouseEvent e) {
 				//TODO: REMOVE TEST IMAGE
 				try {
-					BufferedImage test = driver.encode());
+					BufferedImage test = driver.encode();
 					setNewImage(test);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
