@@ -28,6 +28,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Duckoder {
 
@@ -161,11 +163,27 @@ public class Duckoder {
 					if (beforeImg!=null) {
 						frame.getContentPane().remove(beforeImg);
 					}
-					beforeImg = new JLabel(new ImageIcon(beforeImage.getScaledInstance(221, 358, Image.SCALE_DEFAULT)));
-					beforeImg.setBounds(10, 10, 211, 358);
-					frame.getContentPane().add(beforeImg);
-					frame.getContentPane().repaint();
-				} catch (IOException e1) {
+					
+					File file = new File(path);
+					String type = Files.probeContentType(file.toPath());
+					if (type != null && type.split("/")[0].equals("image"))
+					{
+						beforeImg = new JLabel(new ImageIcon(beforeImage.getScaledInstance(221, 358, Image.SCALE_DEFAULT)));
+						beforeImg.setBounds(10, 10, 211, 358);
+						frame.getContentPane().add(beforeImg);
+						frame.getContentPane().repaint();
+					}
+					else
+					{
+						if (beforeImg!=null) {
+							frame.getContentPane().remove(beforeImg);
+							frame.getContentPane().repaint();
+						}
+					}
+					
+				} 
+				catch (IOException e1) 
+				{
 					// TODO print error
 					System.out.println(e1.toString());
 				}
