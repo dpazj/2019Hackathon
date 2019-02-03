@@ -17,6 +17,7 @@ public class Decoder3 {
     private Color[][] imageColor;
     private Color[][] encodedColor;
     private BufferedImage img;
+    private BufferedImage encodedImg;
     
     int width;
     int height;
@@ -28,6 +29,7 @@ public class Decoder3 {
         try {
 
             img = ImageIO.read(new File("encoded.png"));
+            encodedImg = img;
 
             width = img.getWidth();
             height = img.getHeight();
@@ -44,6 +46,8 @@ public class Decoder3 {
                 }
 
             }
+            
+            encodedColor = new Color[height/4][width/4];
             
 
         } catch (IOException e) {
@@ -131,7 +135,9 @@ public class Decoder3 {
 	 			{	 
 	           		
 	 				String letter = Character.toString((char)decodeBinary(byteLetter));
-	           		System.out.print(letter + " ");
+	 				
+	 				System.out.print(letter);
+	 				
 	           		
 	           		if(letter.equals(".")) 
 	           		{
@@ -161,42 +167,89 @@ public class Decoder3 {
 
     public void decodeImage() {
 
-        String byteColourRed = "";
-        String byteColourGreen = "";
-        String byteColourBlue = "";
-        int index = 7;
+        int byteColourRed = 0;
+        int byteColourGreen = 0;
+        int byteColourBlue = 0;
+        
+        String byteValue = "";
+        
         int rgb = 1;
 
-        for (int i = 0; i < height; i++) {
+        for (int i = 0; i < 400; i++) 
+        {
 
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < 400; j++) {
 
-                switch (index) {
+                switch (rgb) {
                     case 1:
-                        byteColourRed += intToBinary(imageColor[i][j].getRed()).charAt(index - 1);
-                        byteColourRed += intToBinary(imageColor[i][j].getRed()).charAt(index);
+                    	byteValue += intToBinary(imageColor[i][j].getRed()).charAt(6);
+                    	byteValue += intToBinary(imageColor[i][j].getRed()).charAt(7);
                         
                         break;
 
                     case 2:
-                        byteColourGreen += intToBinary(imageColor[i][j].getGreen()).charAt(index - 1);
-                        byteColourGreen += intToBinary(imageColor[i][j].getGreen()).charAt(index);
+                    	byteValue += intToBinary(imageColor[i][j].getGreen()).charAt(6);
+                    	byteValue += intToBinary(imageColor[i][j].getGreen()).charAt(7);
                         
                         break;
 
                     case 3:
-                        byteColourBlue += intToBinary(imageColor[i][j].getBlue()).charAt(index - 1);
-                        byteColourBlue += intToBinary(imageColor[i][j].getBlue()).charAt(index);  
+                    	byteValue += intToBinary(imageColor[i][j].getBlue()).charAt(6);
+                    	byteValue += intToBinary(imageColor[i][j].getBlue()).charAt(7);  
                         rgb = 0;
                         break;
                 }
-
+            
+	            if (byteValue.length() == 8)
+	 			{	 	
+	            	
+	 				int temp = decodeBinary(byteValue);
+	           		
+	           		if(byteValue.equals(('\0')))
+	           		{
+	
+	           			System.out.println();
+	           			
+	           		}
+	           		
+	           		switch (rgb) {
+		                case 1:
+		                	byteColourRed= decodeBinary(byteValue);
+		                	byteValue = "";
+		                    break;
+		
+		                case 2:
+		                	byteColourGreen = decodeBinary(byteValue);
+		                	byteValue = "";  
+		                    break;
+		
+		                case 0:
+		                	byteColourBlue = decodeBinary(byteValue);  
+		                	byteValue = "";
+		                    rgb = 0;
+		                    break;
+	           		}
+	           		
+	           		encodedColor[i/2][j/2] = new Color(255,255,255);//byteColourRed,byteColourGreen,byteColourBlue);
+	           		encodedImg.setRGB(j, i, encodedColor[i/2][j/2].getRGB());
+	           		        		          		
+	          	}
+	           
+	            rgb++;
             }
-
-            rgb++;
+            
+            
+        }
+        System.out.println("DOME");
+        try {
+            // retrieve image
+            BufferedImage bi = encodedImg;
+            File outputfile = new File("encodedImage.png");
+            ImageIO.write(bi, "png", outputfile);
+        } catch (IOException e) {
 
         }
-
+        
     }
 
     public static void main(String[] args) throws IOException {
@@ -204,7 +257,7 @@ public class Decoder3 {
 
         Decoder3 n = new Decoder3();
         n.decodeText();
-        //InputStream is = getClass().getClassLoader().getResourceAsStream("samp.wav");
+        //n.decodeImage();
 
 
     }
