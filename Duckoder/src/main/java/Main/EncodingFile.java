@@ -49,7 +49,7 @@ public class EncodingFile {
         for(int i=0; i < width;i++){
             row = new ArrayList<>();
             for(int j=0; j < height; j++){
-                c = new Color(this.encodingFile.getRGB(i, j));
+                c = new Color(this.encodingFile.getRGB(i, j),true);
                 row.add(c);
             }
             grid.add(row);
@@ -60,7 +60,7 @@ public class EncodingFile {
     
     public BufferedImage createEncodedFile(ArrayList<ArrayList<Color>> newRgb){
         
-        BufferedImage img = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
         
         System.out.print("outer " + newRgb.size() + " inner " + newRgb.get(0).size());
         

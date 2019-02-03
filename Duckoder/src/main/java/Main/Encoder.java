@@ -46,15 +46,15 @@ public class Encoder {
             int red = (file.get(x).get(y).getRed() & 0xFC) | ((temp >> 6) & 0b11);
             int green = (file.get(x).get(y).getGreen() & 0xFC) | ((temp >> 4)& 0b11);
             int blue = (file.get(x).get(y).getBlue() & 0xFC) | ((temp >> 2)& 0b11);
-            int alpha = (file.get(x).get(y).getAlpha() & 0xFC) | ((temp )& 0b11);
+            int alpha = (file.get(x).get(y).getAlpha() & 0xFC) | (temp & 0b11);
+            System.out.println(red + " " + green +" "+ blue +" "+ alpha);
             Color c = new Color(red,green,blue,alpha);
+            c = new Color(c.getRGB(),true);
             file.get(x).set(y, c);
             if(y == file.size() ){x++;y=0;}
             //System.out.println(file.get(x).get(y).getRed() + " " + file.get(x).get(y).getGreen() + " " + file.get(x).get(y).getBlue() + " " + file.get(x).get(y).getAlpha());
         }
-               
-        
-        
+
         return file;
     }
 
